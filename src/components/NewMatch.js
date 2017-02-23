@@ -1,3 +1,4 @@
+
 // Import a library to help create a component
 import React, { Component } from 'react';
 import { View, PickerIOS, Text, StyleSheet } from 'react-native';
@@ -23,18 +24,18 @@ const CLUBS_TEAMS_PLAYERS = {
         players: ['Thibaut Courtois', 'Gary Cahil', 'Cesar Azpilicueta',
             'Marcos Alonso', 'Nathan Ake', 'Diego Costa', 'Eden Hazard', 'Michy Batshuayi',
             'Pedro', 'Willian', 'Victor Moses']
-    }
+    },
 };
 
-class NewMatch extends Component {
+class NewMatch extends React.Component {
     state = {
         club: 'chelsea',
-        playerIndex: 1
+        playerIndex: 3,
     };
 
-
     render() {
-        const selectedClub = CLUBS_TEAMS_PLAYERS[this.state.club];
+        const make = CLUBS_TEAMS_PLAYERS[this.state.club];
+        const selectionString = make.name + ' ' + make.models[this.state.playerIndex];
         return (
             < View style={styles.mainContainer} >
                 <Header headerText={'Create a new match'} />
@@ -53,54 +54,28 @@ class NewMatch extends Component {
                                 />
                             ))}
                         </PickerIOS>
-                        <Text>Please choose a player from {selectedClub.name}:</Text>
+                        <Text>Please choose a model of {make.name}:</Text>
                         <PickerIOS
                             selectedValue={this.state.playerIndex}
                             key={this.state.club}
-                            onValueChange={(playerIndex) => this.setState({ playerIndex })}>
-                            {CLUBS_TEAMS_PLAYERS[this.state.club].models.map((playerName,
-                                playerIndex) => (
+                            onValueChange={(playerIndex) => this.setState({ playerIndex })}
+                        >
+                            {CLUBS_TEAMS_PLAYERS[this.state.club].models.map((
+                                modelName, playerIndex) => (
                                     <PickerItemIOS
                                         key={this.state.club + '_' + playerIndex}
                                         value={playerIndex}
-                                        label={playerName}
+                                        label={modelName}
                                     />
                                 ))}
                         </PickerIOS>
+                        <Text>You selected: {selectionString}</Text>
                     </View>
                 </View>
-            </View >
-        );
+            </View >);
     }
 }
-const styles = StyleSheet.create({
-    description: {
-        fontSize: 20,
-        textAlign: 'center',
-        color: '#000'
-    },
-    mainContainer: {
-        flex: 1,
-    },
-    mainSpace: {
-        flexDirection: 'row',
-        justifyContent: 'center'
-    },
-    teamSection: {
-        flexDirection: 'column',
 
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-    }
-});
-
-
-// Make the component available to other parts of the app
+exports.title = '<PickerIOS>';
+exports.description = 'Render lists of selectable options with UIPickerView.';
 export default NewMatch;
-
-
-
